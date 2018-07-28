@@ -325,21 +325,20 @@ $siteName = $protocol . $_SERVER['HTTP_HOST']
 
         <?php
         global $filesAdded, $ipfs_db_version;
-        $trial = get_option('ipfs_trial');
+
         $pagesBuilt = get_option('ipfs_build_pages');
-//        echo "Trial: ".(!$trial)?"true":"false";
-        
+
         if( isset( $_GET[ 'panel' ] ) ) {
             $active_tab = $_GET[ 'panel' ];
-//            ipfs_logEvent("Active Tab = $active_tab");
-        } // end if
+
+        }
         else{
             $active_tab = "main_settings";
         }
         
-            echo "<div id='activeBanner'>Active</br>Current Pages Built: $pagesBuilt</br>Files Added: $filesAdded";
+        echo "<div id='activeBanner'>Active</br>Current Pages Built: $pagesBuilt</br>Files Added: $filesAdded";
 
-            echo '</div>';
+        echo '</div>';
 
         
 
@@ -413,22 +412,7 @@ $siteName = $protocol . $_SERVER['HTTP_HOST']
             width: 20%;
             float:left;
         }
-        #toManyPages{
-            background: #ff0002;
-            color: #ffffff;
-            font-size: 16pt;
-            padding: 10px;
-            line-height:21pt;
-            margin-right: 20px;
-        }
-        #trialBanner {
-            background: #0500ff;
-            padding: 10px;
-            color: #ffffff;
-            font-size: 16pt;
-            line-height:21pt;
-            margin-right: 20px;
-        }
+
 
         #activeBanner{
             background: #1e881a;
@@ -725,7 +709,7 @@ function updateIPFSConfigFile(){
     wp_die();
 
 }
-//update_option('ipfs_trial',true);
+
 
 function ipfs_main_Settings(){
     $ipfsStats = getRepoStats();
@@ -736,7 +720,7 @@ echo "<div id='mainSettings'>";
 settings_fields( 'pluginPage' );
 do_settings_sections( 'pluginPage' );
 submit_button();
-//update_option('ipfs_trial',true);
+
 
 ?>
 <!--        <p class="submit">-->
@@ -788,13 +772,6 @@ submit_button();
                     <pre id="ipfsCommandResponse"></pre>
                 </td>
             </tr>
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    --><?php
-//                        echo '<button id="ipfs_UpdateDB"  class=\'button button-primary\' onclick="ipfs_UpdateDB(); return false;">Verify DB</button>';
-//                    ?>
-<!--                </td>-->
-<!--            </tr>-->
         </table>
 
     </div>
@@ -865,7 +842,6 @@ function ipfs_KeyManager(){
 function my_action() {
     global $wpdb; // this is how you get access to the database
 
-    //ipfs_logEvent(time());
     wp_schedule_single_event( time()-60 , 'saveAllPages' );
     wp_die(); // this is required to terminate immediately and return a proper response
 }
@@ -1023,38 +999,6 @@ function IPFS_load_scripts_admin() {
 
 }
 add_action( 'admin_enqueue_scripts', 'IPFS_load_scripts_admin' );
-
-function addUploaderxx( $name, $width, $height ){
-
-        // Set variables
-        $options = get_option( 'RssFeedIcon_settings' );
-        $default_image = plugins_url('img/no-image.png', __FILE__);
-
-        if ( !empty( $options[$name] ) ) {
-            $image_attributes = wp_get_attachment_image_src( $options[$name], array( $width, $height ) );
-            $src = $image_attributes[0];
-            $value = $options[$name];
-        } else {
-            $src = $default_image;
-            $value = '';
-        }
-
-        $text = __( 'Upload' );
-
-        // Print HTML field
-        echo '
-        <div class="upload">
-            <img data-src="' . $default_image . '" src="' . $src . '" width="' . $width . 'px" height="' . $height . 'px" />
-            <div>
-                <input type="hidden" name="RssFeedIcon_settings[' . $name . ']" id="RssFeedIcon_settings[' . $name . ']" value="' . $value . '" />
-                <button type="submit" class="upload_image_button button">' . $text . '</button>
-                <button type="submit" class="remove_image_button button">&times;</button>
-            </div>
-        </div>
-    ';
-
-
-}
 
 
 
