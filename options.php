@@ -328,12 +328,7 @@ $siteName = $protocol . $_SERVER['HTTP_HOST']
         $trial = get_option('ipfs_trial');
         $pagesBuilt = get_option('ipfs_build_pages');
 //        echo "Trial: ".(!$trial)?"true":"false";
-        if($trial && $pagesBuilt > 1000){
-            echo "<div id='toManyPages'>You are no longer building new pages purchase a license to reactivate IPFS page building.</div>";
-        }
-        if($trial && $filesAdded > 1000){
-            echo "<div id='toManyPages'>You can no longer add files to your IPFS node purchase a license to add more files.</div>";
-        }
+        
         if( isset( $_GET[ 'panel' ] ) ) {
             $active_tab = $_GET[ 'panel' ];
 //            ipfs_logEvent("Active Tab = $active_tab");
@@ -341,27 +336,12 @@ $siteName = $protocol . $_SERVER['HTTP_HOST']
         else{
             $active_tab = "main_settings";
         }
-        if($trial){
-            echo "<div id='trialBanner'>The Trial Version restricts to 1000 Pages and 100 files.</br>Current Pages Built: $pagesBuilt</br>Files Added: $filesAdded</div>";
-
-            ?>
-            <table id="license">
-                <tr><th scope="row">Key: </th><td><input type="text" id="licenseKey" value=""></td></tr>
-                <tr><th scope="row">Email: </th><td><input type="text" id="email" value=""></td></tr>
-                <tr><td colspan="2"><button class="button button-primary" id="activateIPFS" onClick=" Activate(); return false;">Activate IPFS Plugin</button></td></tr>
-
-            </table>
-
-        <?php
-
-
-        }
-        else{
+        
             echo "<div id='activeBanner'>Active</br>Current Pages Built: $pagesBuilt</br>Files Added: $filesAdded";
 
             echo '</div>';
 
-        }
+        
 
         echo '<div id="activeBanner">Database Version: '.$ipfs_db_version.'</div>';
 
