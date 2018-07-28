@@ -6,8 +6,7 @@ Requires at least: 4.0.0
 Tested up to: 4.9.5
 Requires PHP: 5.4.6
 Stable tag: trunk
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl.html
+License: MIT
 
 IPFS Bridge provides a link from your wordpress site to the IPFS network.
 
