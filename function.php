@@ -38,7 +38,7 @@ require_once( $root . 'wp-load.php' );
     require (__DIR__. "/widget.php");
 //    require '../../../wp-load.php';
 	// connect to ipfs daemon API server
-    global $ipfs, $postHashSQL, $hashTable, $wpdb, $filesTable, $trial, $firstBuild, $server,$gatewayPort,$APIPort, $ipfs_db_version;
+    global $ipfs, $postHashSQL, $hashTable, $wpdb, $filesTable, $firstBuild, $server,$gatewayPort,$APIPort, $ipfs_db_version;
     $hashTable = $wpdb->prefix . "ipfs_Hashes";
     $filesTable = $wpdb->prefix . "ipfs_Files";
 
@@ -51,18 +51,17 @@ require_once( $root . 'wp-load.php' );
     $GateWayLink = $options{'ipfs_gateway'};
     $ipfs_db_version = get_option('ipfs_db_version');
 	$ipfs = new IPFS($server, $gatewayPort, $APIPort ); // leaving out the arguments will default to these values
-//update_option('ipfs_trial', true);
+
     add_action( 'saveAllPages', 'saveAllPages' );
     $filesAdded = get_option( "ipfs_files_added");
-    $trial = false;
+
     $firstBuild = get_option("ipfs_first_build_complete");
     $pagesBuilt = get_option('ipfs_build_pages');
 //    $loggingEnabled = get_option('ipfs_settings')['ipfs_logging'];
 
 
 
-//update_option("ipfs_trial",false);
-//update_option('ipfs_files_added',101);
+
 
 add_action( 'upgrader_process_complete', 'ipfs_update_plugin',10, 2);
 
@@ -258,7 +257,7 @@ add_action('wp_ajax_ipfs_UpdateDB', "ipfs_UpdateDB");
        add_option( "ipfs_build_pages", 0 );
        add_option( "ipfs_files_added", 0 );
        add_option( "ipfs_first_build_complete", false );
-       add_option( "ipfs_trial", true );
+
        ipfs_install();
     // Activation code here...
 	}
@@ -412,7 +411,7 @@ function randomstring($len)
     return $string;
 }
 	function saveAllPages(){
-        global $hashTable, $wpdb, $trial, $firstBuild;
+        global $wpdb;
 
         $sql = "SELECT ID from $wpdb->posts ORDER BY ID DESC" ;
 //        ipfs_logEvent($sql);
@@ -422,79 +421,48 @@ function randomstring($len)
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_build_pages',0);
-            }
+
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_build_pages',0);
-            }
+
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_build_pages',0);
-            }
+
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_build_pages',0);
-            }
+
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_build_pages',0);
-            }
+
             foreach($rows as $post){
                 on_Save($post->ID);
             }
-            if($trial  && !$firstBuild){
-                update_option('ipfs_first_build_complete', true);
-                update_option('ipfs_build_pages',0);
-            }
+
         }
         else{
             return null;
         }
 
     }
-//add_action('wp_footer', 'addIPFSLink');
-//function addIPFSLink() {
-////    $custom_items = get_option( 'option_name' );
-//    $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-//
-//    $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//    ipfs_logEvent("URL: ". $url);
-//    $hash = getIFPSHashbyURL($url);
-//    if ($hash != null){
-//        $custom_items = "<a href='https://gateway.ipfs.io/ipfs/".$hash."'>View site in IPFS</a>";
-//    echo $custom_items;
-//    }
-//
-//}
+
 
 
 
     function savePostToDisk($post_id){
-        global $ipfs, $firstBuild, $trial, $server,$gatewayPort,$APIPort, $GateWayLink;
-//		ipfs_logEvent("Start of Save");
-        // If this is just a revision, don't send the email.
+        global $ipfs, $firstBuild, $server,$gatewayPort,$APIPort, $GateWayLink;
+
+        // If this is just a revision-- dont build -- revisions are not yet published?
         if ( wp_is_post_revision( $post_id ) ) {
             ipfs_logEvent("Revision");
             return;
         }
-//        ipfs_logEvent("Getting Page Count");
+
         $BuildCount = get_option("ipfs_build_pages");
-//        ipfs_logEvent("Page Count: ". $BuildCount);
-        if ($trial && $BuildCount > 1000){
-            ipfs_logEvent("not Building");
-            ipfs_logEvent("Trial" . (($trial) ?"TRUE":"False"));
-            return;
-        }
+
         $post_url = $permLink = get_permalink( $post_id );
         $cachePath = __DIR__."/cache/$post_id/";
         system("rm -rf ".escapeshellarg($cachePath));
@@ -575,23 +543,10 @@ function randomstring($len)
         ipfs_logEvent(count($urls) . " Urls Found");
 
 
-//----------------------REG EX GET URLS-----------------------------------
-//        $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-//        $reg_exUrl = "/.(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)(?=(". '\\"' ."|\'|;))/";
-//        ipfs_logEvent("RegEx: " . $reg_exUrl);
-//        preg_match_all($reg_exUrl, $pageContent, $urls);
-//        $urls = $urls[0];
-        //----------------------REG EX GET URLS-----------------------------------
         $includedURLS = array();
         foreach ($urls as &$url){
 
-
             $afterSite = substr($url,strlen($siteURL)+2);
-            //  ipfs_logEvent("After Site: " . $afterSite);
-
-//            ipfs_logEvent("Part 1: " . (stristr($afterSite,".") ?'true':'false'));
-//            ipfs_logEvent("Part 2: " . (!(stristr($afterSite,".js")|| stristr($afterSite,".css")) ? 'true' : 'false'));
-//            ipfs_logEvent((stristr($afterSite,".") && (stristr($afterSite,".js")|| stristr($afterSite,".css")) )? 'true' : 'false');
             $urlInclude = array("js","php", "jpg","php", "jpeg", "xml","css");
             $remove = true;
 
@@ -613,9 +568,7 @@ function randomstring($len)
 
         ipfs_logEvent(count($urls) . " Urls Found");
         $hashes = array();
-//        foreach($urls as $url){
-//            ipfs_logEvent("FOUND URL: ".$url);
-//        }
+
 
         $includeCheck = array("js","php", "jpg", "png", "jpeg", "xml","css");
         $files = array();
@@ -634,21 +587,18 @@ function randomstring($len)
                 }
             }
             file_put_contents($cachePath.$key.$extension,$subContent);
-//            ipfs_logEvent("Saving URL: ". $url. " : files/$key$extension");
             array_push($files,$cachePath.$key.$extension);
         }
 
         foreach($urls as $url){
 
 
-//                      if(strpos($url,".", strlen($siteURL)) == ''){
-                $first = substr($url,0,1);
-                $last = substr($url,-1);
-                $subURL = substr($url, 1, strlen($url)-2);
-                $subContent =  file_get_contents($subURL);
-                $subHash = getIFPSHashbyURL($subURL);
+            $first = substr($url,0,1);
+            $last = substr($url,-1);
+            $subURL = substr($url, 1, strlen($url)-2);
+            $subContent =  file_get_contents($subURL);
+            $subHash = getIFPSHashbyURL($subURL);
 
-            //ipfs_logEvent(url_to_postid($subURL));
             $extension = "";
             foreach ( $includeCheck as $check){
                 if (stristr($url,".".$check)){
@@ -657,7 +607,7 @@ function randomstring($len)
             }
             if($subURL == $permLink){
                 $replaceMentURL = $first. "javascript:window.location.reload(true)". $last;
-//                $pageContent = str_replace($url, $first. "javascript:window.location.reload(true)". $last , $pageContent );
+
             }elseif($subHash != null){
                 $replaceMentURL = $first. "$GateWayLink/ipfs/" . $subHash . $last;
             }
@@ -672,66 +622,19 @@ function randomstring($len)
             $pageContent = str_replace($url, $replaceMentURL , $pageContent );
             ipfs_logEvent("Replacing URL: $url , $replaceMentURL");
             }
-//            if ($subHash !== null && url_to_postid($subURL) != $post_id){
-////                    ipfs_logEvent("Replacing with SubHash");
-//                $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-//            }
-//            elseif($subHash == null && $subURL != $permLink){
-//
-//                if(stristr($subURL,".css")){
-//                    $subContent = "<style>". $subContent . "</style>";
-//                    $pageContent = $subContent.$pageContent ;
-//                    $pageContent = str_replace($url, $first.  $last , $pageContent );
-//                }
-//                else{
-//                    $subHash = $ipfs->add($subContent);
-////                            $ipfs->pinAdd($subHash);
-//                    $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-//                }
-//
-//
-//            }
-//            elseif($subURL == $permLink){
-//                //javascript:window.location.reload(true)
-//                $pageContent = str_replace($url, $first. "javascript:window.location.reload(true)". $last , $pageContent );
-//            }
 
-
-//                $subContent =  file_get_contents($url);
-//                $subHash = $ipfs->add($subContent);
-//                $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-//            $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-//            ipfs_logEvent("Replacing URL: " . $url . " with Hash: " . $subHash);
-//            }
             file_put_contents($cachePath."index.html", $pageContent);
-        array_unshift($files,$cachePath."index.html");
-//            $hash = addCachePath($cachePath);
-//        $ipfs = new IPFSFiles($server,$gatewayPort,$APIPort);
-//        $hash = $ipfs->addWithWrap($cachePath,true);
+            array_unshift($files,$cachePath."index.html");
 
-//        foreach($files as $file){
-//            ipfs_logEvent("Files: $file");
-//        }
-
-//
         ipfs_logEvent("count of FIles: ".count($files));
         if (!count($files) == 0){
             ipfs_logEvent(json_encode($files));
             $ipfs = new IPFSFiles($server,$gatewayPort,$APIPort);
-//        $result = $ipfs->addWithWrap($cachePath);
+
             $result = $ipfs->addWithWrap(array_splice($files,0,-1));
 
-//                $ipfs = new IPFSFiles($server,$gatewayPort,$APIPort);
-//        $result = $ipfs->addFile($cachePath);
-//        $result = $ipfs->addFile($files[count($files)-1]);
-
-//            foreach($result['files'] as $item){
-//                ipfs_logEvent("IPFS RESULT ITEM".implode(" ",$item));
-//            }
-//            ipfs_logEvent("IPFS ADD: ".$result['FolderHash']);
             $hash = $result['FolderHash'];
 
-//        $ipfs->pinAdd($hash);
             ipfs_logEvent("Hash: " . $hash );
             updatePostHashTable($post_id, $permLink, $hash);
             $settings = get_option('ipfs_settings');
@@ -743,7 +646,6 @@ function randomstring($len)
 
 
             ipfs_logEvent("Finished Save");
-//        ipfs_build_pages
 
             if (!$firstBuild){
                 update_option('ipfs_build_pages',$BuildCount+1);
@@ -765,205 +667,24 @@ add_action('ipfs_saveSinglePost','savePostToDisk');
 
 add_action( 'save_post', 'ipfs_sechedule_Save' );
 
-//add_action( 'save_post', 'testCurl' );
-
-//function testCurl(){
-//    global $server,$gatewayPort,$APIPort;
-//    $string = "[\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/index.html\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/2\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/3\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/6.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/7.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/8\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/9.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/10.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/11.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/12.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/13.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/14.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/15.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/16.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/17.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/18.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/19.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/20.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/21.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/23\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/24.php\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/25.xml\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/26\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/27\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/28\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/29\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/30.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/31.css\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/33\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/34.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/35.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/36.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/37.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/38.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/39.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/40.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/41.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/42.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/43.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/44.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/45.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/46.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/47.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/48\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/49\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/50.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/51.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/52.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/53.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/54.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/55.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/56.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/57.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/58.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/59.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/60.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/61.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/62.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/63.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/64.jpg\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/65\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/66.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/67.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/68.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/69.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/70.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/71.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/72\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/73\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/74.png\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/77\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/78\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/79\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/80\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/81\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/82\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/83.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/84.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/85.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/86.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/87.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/88.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/89.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/90.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/91.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/92.js\",\"\/volume1\/web\/wordpress\/wp-content\/plugins\/ipfs-bridge\/cache\/5\/92.js\"]";
-//    $string = str_replace("\/", "/",$string);
-//    $files = json_decode($string);
-//    ipfs_logEvent("Array Encoded, Files Found: ".count($files));
-//
-//     ipfs_logEvent(json_encode($files));
-//            $ipfs = new IPFSFiles($server,$gatewayPort,$APIPort);
-////        $result = $ipfs->addWithWrap($cachePath);
-//            $result = $ipfs->addWithWrap(array_splice($files,0,-1));
-//
-////                $ipfs = new IPFSFiles($server,$gatewayPort,$APIPort);
-////        $result = $ipfs->addFile($cachePath);
-////        $result = $ipfs->addFile($files[count($files)-1]);
-//
-//            foreach($result['files'] as $item){
-//                ipfs_logEvent("IPFS RESULT ITEM".implode(" ",$item));
-//            }
-//            ipfs_logEvent("IPFS ADD: ".$result['FolderHash']);
-//            $hash = $result['FolderHash'];
-//
-////        $ipfs->pinAdd($hash);
-//            ipfs_logEvent("Hash: " . $hash );
-//}
 
 
 
-
-
-
-
-
-//add_action( 'save_post', 'on_Save' );
-	function on_Save( $post_id ) {
-		global $ipfs, $firstBuild, $trial, $GateWayLink;
-//		ipfs_logEvent("Start of Save");
-		// If this is just a revision, don't send the email.
-		if ( wp_is_post_revision( $post_id ) ) {
-            ipfs_logEvent("Revision");
-            return;
-        }
-//        ipfs_logEvent("Getting Page Count");
-        $BuildCount = get_option("ipfs_build_pages");
-//        ipfs_logEvent("Page Count: ". $BuildCount);
-        if ($trial && $BuildCount > 1000){
-            ipfs_logEvent("not Building");
-            ipfs_logEvent("Trial" . (($trial) ?"TRUE":"False"));
-            return;
-        }
-		$post_title = get_the_title( $post_id );
-		$post_url = get_permalink( $post_id );
-        $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-
-        $pageURL = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-//		if(stristr($pageURL,"wp-admin")){
-//		    return;
-//        }
-
-		
-		$postContent = get_post($post_id);
-		$permLink = get_permalink($post_id);
-		$postid = url_to_postid( $permLink );
-		ipfs_logEvent("Page Saved: " . $post_url. " Post ID: " . $postid." Perma link: " . $permLink);
-		$pageContent = file_get_contents($post_url);
-		$siteURL = get_site_url();
-//        ipfs_logEvent("Site URL: " . $siteURL);
-        $urls = array();
-
-        $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-        $reg_exUrl = "/.(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)(?=(". '\\"' ."|\'|;))./";
-        ipfs_logEvent("RegEx: " . $reg_exUrl);
-        preg_match_all($reg_exUrl, $pageContent, $urls);
-        $urls = $urls[0];
-        foreach ($urls as &$url){
-            $afterSite = substr($url,strlen($siteURL)+2);
-          //  ipfs_logEvent("After Site: " . $afterSite);
-
-//            ipfs_logEvent("Part 1: " . (stristr($afterSite,".") ?'true':'false'));
-//            ipfs_logEvent("Part 2: " . (!(stristr($afterSite,".js")|| stristr($afterSite,".css")) ? 'true' : 'false'));
-//            ipfs_logEvent((stristr($afterSite,".") && (stristr($afterSite,".js")|| stristr($afterSite,".css")) )? 'true' : 'false');
-            $includeCheck = array("js","php", "jpg", "png", "jpeg", "xml","css");
-            $remove = TRUE;
-            foreach ( $includeCheck as $check){
-                if (stristr($url,".".$check)){
-                    $remove = FALSE;
-                }
-            }
-            if(!stristr($url,$siteURL) || (stristr($afterSite,".") && $remove) ){ // REMOVE VALUES FROM ARRAY
-
-                if (($key = array_search($url, $urls)) !== false) {
-//                    ipfs_logEvent("Removing Url: " . $url);
-                    unset($urls[$key]);
-                }
-            }
-            else{
-                if(stristr("$url",")")){
-                    $posX = strpos($url,")");
-                    $url = substr($url,0,$posX+1);
-                }
-//                ipfs_logEvent("URL Found: " . $url);
-            }
-        }
-        ipfs_logEvent(count($urls) . " Urls Found");
-
-        foreach($urls as $url){
-
-
-//            if(strpos($url,".", strlen($siteURL)) == ''){
-                $first = substr($url,0,1);
-                $last = substr($url,-1);
-                $subURL = substr($url, 1, strlen($url)-2);
-                $subContent =  file_get_contents($subURL);
-                $subHash = getIFPSHashbyURL($subURL);
-
-            //ipfs_logEvent(url_to_postid($subURL));
-                if ($subHash !== null && url_to_postid($subURL) != $post_id){
-//                    ipfs_logEvent("Replacing with SubHash");
-                    $pageContent = str_replace($url, $first. "$GateWayLink/ipfs/" . $subHash . $last , $pageContent );
-                }
-                elseif($subHash == null && $subURL != $permLink){
-
-                        if(stristr($subURL,".css")){
-                            $subContent = "<style>". $subContent . "</style>";
-                            $pageContent = $subContent.$pageContent ;
-                            $pageContent = str_replace($url, $first.  $last , $pageContent );
-                        }
-                        else{
-                            $subHash = $ipfs->add($subContent);
-//                            $ipfs->pinAdd($subHash);
-                            $pageContent = str_replace($url, $first. "$GateWayLink/ipfs/" . $subHash . $last , $pageContent );
-                        }
-
-
-                }
-                elseif($subURL == $permLink){
-                    //javascript:window.location.reload(true)
-                    $pageContent = str_replace($url, $first. "javascript:window.location.reload(true)". $last , $pageContent );
-                }
-
-
-//                $subContent =  file_get_contents($url);
-//                $subHash = $ipfs->add($subContent);
-//                $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-//            $pageContent = str_replace($url, $first. "https://gateway.ipfs.io/ipfs/" . $subHash . $last , $pageContent );
-                ipfs_logEvent("Replacing URL: " . $url . " with Hash: " . $subHash);
-//            }
-
-        }
-
-
-
-		//ipfs_logEvent($pageContent);
-		$hash = $ipfs->add($pageContent);
-//        $ipfs->pinAdd($hash);
-		ipfs_logEvent("Hash: " . $hash );
-		updatePostHashTable($postid, $permLink, $hash);
-		ipfs_logEvent("Finished Save");
-//        ipfs_build_pages
-
-        if (!$firstBuild){
-            update_option('ipfs_build_pages',$BuildCount+1);
-        }
-
-//		$folderhash = $ipfsFiles->addWithWrap(plugin_dir_path(__FILE__),FALSE);
-//		ipfs_logEvent("FolderAdded: " . implode($folderhash));
-		
-	}
-
-	function updatePostHashTable($postid, $postPermLink, $hash){
-	    global $hashTable, $wpdb;
-	    ipfs_logEvent("updating Hash table.");
+function updatePostHashTable($postid, $postPermLink, $hash){
+    global $hashTable, $wpdb;
+    ipfs_logEvent("updating Hash table.");
 //	    $insertSQL = "INSERT INTO " . $hashTable . " (postID, url, hash) VALUES(" .
 //                        $postid . " , " . $postPermLink . " , " . $hash .")";
-	    $data = array(
-	        "postid" => $postid,
-            "url" => $postPermLink,
-            "hash" => $hash
-        );
+    $data = array(
+        "postid" => $postid,
+        "url" => $postPermLink,
+        "hash" => $hash
+    );
 
-	    $wpdb->insert($hashTable, $data);
-
-    }
-add_action( 'wp_ajax_my_action', 'ActivateTrial' );
-function ActivateTrial(){
-    $jsondata = $entityBody = file_get_contents('php://input');
-    //ipfs_logEvent($jsondata);
-    $params = json_decode($jsondata, true);
-
-
-    $code = $params['valid'];
-    $response = $arr = array();
-    $response = $params;
-
-    update_option('ipfs_trial', $code);
+    $wpdb->insert($hashTable, $data);
 
 }
+
 
 function setPublishingKey(){
     $options = get_option( 'ipfs_settings' );
@@ -989,63 +710,7 @@ function CreateNewKey(){
 }
 
 add_action( 'wp_ajax_CreateNewKey', 'CreateNewKey' );
-add_action( 'wp_ajax_ActivateIPFS', 'ActivateIPFS' );
-function ActivateIPFS(){
-    /*** Mandatory data ***/
-// Post URL
-    $postURL = "https://www.jefflubbers.com";
-// The Secret key
-    $secretKey = "5ae0cdc4daa109.89601794";
-    $license = $_POST['id'];
-    $email = $_POST['email'];
 
-    /*** Optional Data ***/
-    $firstname = "John";
-    $lastname = "Doe";
-    //$email = "john.doe@gmail.com";
-
-// prepare the data
-    $data = array ();
-    $data['secret_key'] = $secretKey;
-    $data['slm_action'] = 'slm_check';
-//    $data['first_name'] = $firstname;
-//    $data['last_name'] = $lastname;
-    $data['license_key'] = $license;
-    $data['email'] = $email;
-
-// send data to post URL
-//    $ch = curl_init ($postURL);
-//    curl_setopt ($ch, CURLOPT_POST, true);
-//    curl_setopt ($ch, CURLOPT_POSTFIELDS, $data);
-//    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-//    $returnValue = curl_exec ($ch);
-
-    $returnValue = wp_remote_get(add_query_arg($data, 'https://www.jefflubbers.com'), array('timeout' => 20, 'sslverify' => true));
-//    $json = json_decode($returnValue);
-    if ( is_array( $returnValue ) ) {
-        $header = $returnValue['headers']; // array of http header lines
-        $body = json_decode($returnValue['body'],true); // use the content
-        foreach ($body as $key=> $value){
-//            echo "Key: $key : $value";
-        }
-//        echo $body;
-//        echo gettype($body);
-        if($body['result'] == 'success'){
-//            echo "Activating Product";
-            echo $body['message']."\r\nLicense Key Valid.";
-            update_option('ipfs_trial', false);
-        }
-        else {
-//            echo "Deactivating Product";
-            echo $body['message'];
-            update_option('ipfs_trial', true);
-        }
-
-    }
-    else{
-        return "An error occured in processing your request.";
-    }
-}
 
 add_action('ipnsPublishingRoutine', 'ipnsPublishingRoutine');
 
@@ -1152,33 +817,7 @@ function exportLogsasCSV(){
         wp_die();
     }
 }
-function exportLogsasCSVxxx(){
 
-    global $wpdb;
-    $file = 'IPFS_BRIGDE_LOGS'; // ?? not defined in original code
-    $results = $wpdb->get_results("Select logTime, logMessage, codeLocation from wp_tech_ipfs_logs ORDER BY logTime DESC;",ARRAY_A);
-
-    if (empty($results)) {
-        return;
-    }
-
-    $csv_output = '"'.implode('";"',array_keys($results[0])).'";'."\n";;
-
-    foreach ($results as $row) {
-        $csv_output .= '"'.implode('";"',$row).'";'."\n";
-    }
-    $csv_output .= "\n";
-
-    $filename = $file."_".date("Y-m-d_H-i",time());
-    header("Content-type: application/vnd.ms-excel");
-    header("Content-disposition: csv" . date("Y-m-d") . ".csv");
-    header( "Content-disposition: filename=".$filename.".csv");
-    print $csv_output;
-    exit;
-
-//        wp_die();
-
-}
 
 
 add_action('wp_ajax_IPFSUploadFIles', "IPFSUploadFIles");
@@ -1196,9 +835,8 @@ function IPFSUploadFIles() {
 
     wp_die();
 
-//    echo $response;
 }
-//ipnsPublishingRoutine();
+
 
 function get_file_url( $file = __FILE__ ) {
     $file_path = str_replace( "\\", "/", str_replace( str_replace( "/", "\\", WP_CONTENT_DIR ), "", $file ) );
