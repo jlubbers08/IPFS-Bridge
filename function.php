@@ -54,7 +54,7 @@ require_once( $root . 'wp-load.php' );
 //update_option('ipfs_trial', true);
     add_action( 'saveAllPages', 'saveAllPages' );
     $filesAdded = get_option( "ipfs_files_added");
-    $trial = get_option('ipfs_trial');
+    $trial = false;
     $firstBuild = get_option("ipfs_first_build_complete");
     $pagesBuilt = get_option('ipfs_build_pages');
 //    $loggingEnabled = get_option('ipfs_settings')['ipfs_logging'];
