@@ -428,6 +428,16 @@ $siteName = $protocol . $_SERVER['HTTP_HOST']
         .logDate{
             width:130px;
         }
+
+        #MainContainer {
+
+            max-width: 50%;
+            margin-left: 50%;
+            width: 100%;
+            align-content: center;
+            text-align: center;
+
+        }
     </style>
     <script>
         var setPublishingKey = function(KeyName,keyId){
@@ -940,6 +950,8 @@ function ipfs_FileManager(){
 
 function addUploader(){
     $path = plugin_dir_url(__FILE__).'uploader/index.html';
+    $path = plugin_dir_url(__FILE__);
+    //$path = plugin_dir_path
 //    $fileConetnts = file_get_contents($path);
 //    $fileConetnts = file_get_contents(__DIR__.'/uploader/indexmissingscriptsandCSS.html');
 //    //ipfs_logEvent($fileConetnts,"Options.AddUploader");
@@ -947,7 +959,503 @@ function addUploader(){
 
     ?>
 
-    <iframe class="ipfsFiles" src="<?php echo $path?>"></iframe>
+<!--    <iframe class="ipfsFiles" src="--><?php //echo $path?><!--"></iframe>-->
+<!--    --><?php //echo $path;?>
+
+<!--    <link rel="stylesheet" href="--><?php //echo $path;?><!--uploader/assets/font-awesome.css" type="text/css"/>-->
+<!--    <link rel="stylesheet" href="--><?php //echo $path;?><!--uploader/assets/theme.css" type="text/css"/>-->
+<!--    <script src="--><?php //echo $path;?><!--uploader/assets/IpfsApi.js"></script>-->
+<!--    <script src="--><?php //echo $path;?><!--uploader/assets/CustomJS.js"></script>-->
+<!--    <script src="--><?php //echo $path;?><!--uploader/assets/jquery-3.js"></script>-->
+<!--    <script src="--><?php //echo $path;?><!--uploader/assets/IPFSjs.js"></script>-->
+<!--    <!-- Bootstrap styles -->-->
+<!--    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->-->
+<!--    <!-- Generic page styles -->-->
+<!---->
+<!--    <link rel="stylesheet" href="--><?php //echo $path;?><!--uploader/assets/bootstrap.css">-->
+<!---->
+<!--    <link href="--><?php //echo $path;?><!--uploader/assets/icon.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="--><?php //echo $path;?><!--uploader/assets/style.css">-->
+<!---->
+<!--    <!-- blueimp Gallery styles -->-->
+<!--    <link rel="stylesheet" href="--><?php //echo $path;?><!--uploader/assets/blueimp-gallery.css"/>-->
+<!--    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->-->
+<!--    <link rel="stylesheet" href=--><?php //echo $path;?><!--uploader/assets/jquery_002.css"/>-->
+<!--    <link rel="stylesheet" href=--><?php //echo $path;?><!--uploader/assets/jquery_003.css"/>-->
+<!---->
+<!--    <!--<script src="assets/app.js"></script>-->-->
+<!---->
+<!--    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_009.js"></script>-->
+<!--    <!-- The Templates plugin is included to render the upload/download listings -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/tmpl.js"></script>-->
+<!--    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/load-image.js"></script>-->
+<!--    <!-- The Canvas to Blob plugin is included for image resizing functionality -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/canvas-to-blob.js"></script>-->
+<!--    <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->-->
+<!--    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->-->
+<!--    <!-- blueimp Gallery script -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_003.js"></script>-->
+<!--    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_010.js"></script>-->
+<!--    <!-- The basic File Upload plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_007.js"></script>-->
+<!--    <!-- The File Upload processing plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_004.js"></script>-->
+<!--    <!-- The File Upload image preview & resize plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery.js"></script>-->
+<!--    <!-- The File Upload audio preview plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_002.js"></script>-->
+<!--    <!-- The File Upload video preview plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_011.js"></script>-->
+<!--    <!-- The File Upload validation plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_006.js"></script>-->
+<!--    <!-- The File Upload user interface plugin -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_008.js"></script>-->
+<!--    <!-- The main application script -->-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/main.js"></script>-->
+<!--    <style>-->
+<!--        .collapse.in {-->
+<!--            display: block;-->
+<!--        }-->
+<!--    </style>-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/bootstrap.js"></script>-->
+<!---->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/bootstrap-confirmation.js"></script>-->
+<!--    <link rel="stylesheet" href=--><?php //echo $path;?><!--uploader/assets/styles.css"/>-->
+<!--    <script src=--><?php //echo $path;?><!--uploader/assets/jquery_005.js"></script>-->
+<!--    <link rel="stylesheet" href=--><?php //echo $path;?><!--uploader/assets/jquery.css"/>-->
+
+    <div id="displayBodyt" data-gr-c-s-loaded="true">
+
+    <div class="container" id="MainContainer">
+        <!--
+        /*
+         * jQuery File Upload Plugin Demo
+         * https://github.com/blueimp/jQuery-File-Upload
+         *
+         * Copyright 2010, Sebastian Tschan
+         * https://blueimp.net
+         *
+         * Licensed under the MIT license:
+         * https://opensource.org/licenses/MIT
+         */
+        -->
+
+
+        <!-- Force latest IE rendering engine or ChromeFrame if installed -->
+        <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+        <meta charset="utf-8">
+
+        <meta name="description" content="File Upload widget with multiple file selection, drag&amp;drop support, progress bars, validation and preview images, audio and video for jQuery. Supports cross-domain, chunked and resumable file uploads and client-side image resizing. Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <script>
+
+            function later(){
+                console.log("A Function Needs to Changed.")
+                alert("This Function needs to be assigned / changed");
+            }
+
+
+            var knownFolderHashes = [];
+
+            var AllFiles = {};
+
+
+
+
+
+            function saveToIpfs (reader, pcFile) {
+
+
+                // ENTIRE GOOD CODE __________________________
+                var Buffer = ipfs.Buffer;
+                // var buffer = new ReadableStream(pcFile);
+                var buffer = Buffer.from(reader.result);
+                var uploadSize = buffer.length;
+                var lcFileName = pcFile.name.replace(/ /g, "");
+
+                var addFiles = [
+                    {
+                        path:  lcFileName,
+                        content:buffer
+                    }
+                ];
+
+                ipfs.add(addFiles, {wrapWithDirectory :true, progress: (prog) => {
+                        // Log(JSON.stringify(prog), "saveToIpfs");
+                        var ele = document.getElementById("Progress-" + lcFileName);
+                        //ele.setAttribute("aria-valuenow", Math.round(prog / uploadSize * 100));
+                        ele.style.width = Math.round(prog / uploadSize * 100) + "%";
+
+                    } })
+                    .then((response, err) => {
+                        Log(JSON.stringify(response), "saveToIpfs");
+                        Log(pcFile.name, "saveToIpfs");
+                        var i;
+                        for(i=0; i< response.length; i++){
+                            lcFolderHash = response[i].hash;
+                        }
+
+
+                        Log(response[0].hash, "saveToIpfs");
+                        addFileToDb(response, pcFile);
+                        removeFile(pcFile.name);
+                        if(knownFolderHashes.includes(lcFolderHash)){
+                            updateIPFSFolderHashes(lcFolderHash, lcFileName, response[0].hash);
+                        }
+                        else{
+                            knownFolderHashes.push(lcFolderHash);
+                        }
+
+                        // this.setState({added_file_hash: ipfsId})
+                    }).catch((err) => {
+                    var ele = document.getElementById("Progress-" + lcFileName);
+                    //ele.setAttribute("aria-valuenow", Math.round(prog / uploadSize * 100));
+                    ele.style.width = 0 + "%";
+                    var errMsg = document.getElementById("badFile-" +lcFileName);
+                    errMsg.style.display = "block";
+                    console.error(err)
+                })
+                // ENTIRE GOOD CODE END ------------------------------------------------------
+
+            }
+            function removeFile(pcFileName){
+                delete AllFiles[pcFileName];
+                document.getElementById(pcFileName).remove();
+            }
+
+
+            function removePending(){
+                for(var fileKey in AllFiles) {
+                    // Log( AllFiles[fileKey]);
+
+                    removeFile(AllFiles[fileKey].name);
+                }
+            }
+
+            function bytesToSize(bytes) {
+                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                if (bytes == 0) return '0 Byte';
+                var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                return (bytes / Math.pow(1024, i)).toFixed(0) + ' ' + sizes[i];
+            };
+
+
+
+            jQuery('#btnDelete').confirmation({
+                rootSelector: 'btnDelete',
+                buttons:[
+                    {
+                        class:'btn btn-success',
+                        iconClass: 'material-icons',
+                        iconContent: 'check',
+                        label: 'Continue'
+                    },{
+                        class:'btn btn-danger',
+                        iconClass: 'material-icons',
+                        iconContent: 'close',
+                        label: 'Nope'
+                    }
+                ],
+                title: "Are you sure",
+                content: "All Files will be removed from your local database but not from your ipfs node.",
+                onConfirm:later
+                // other options
+            });
+
+
+
+
+
+            (function($){
+                $.fn.tzCheckbox = function(options){
+                    console.log("GettingBoxes")
+                    // Default On / Off labels:
+
+                    options = $.extend({
+                        labels : ['ON','OFF']
+                    },options);
+
+                    return this.each(function(){
+                        var originalCheckBox = $(this),
+                            labels = [];
+
+                        // Checking for the data-on / data-off HTML5 data attributes:
+                        if(originalCheckBox.data('on')){
+                            labels[0] = originalCheckBox.data('on');
+                            labels[1] = originalCheckBox.data('off');
+                        }
+                        else labels = options.labels;
+
+                        // Creating the new checkbox markup:
+                        var checkBox = $('<span>',{
+                            className	: 'tzCheckBox '+(this.checked?'checked':''),
+                            html:	'<span class="tzCBContent">'+labels[this.checked?0:1]+
+                            '</span><span class="tzCBPart"></span>'
+                        });
+
+                        // Inserting the new checkbox, and hiding the original:
+                        checkBox.insertAfter(originalCheckBox.hide());
+
+                        checkBox.click(function(){
+                            console.log("Checkking")
+                            checkBox.toggleClass('checked');
+
+                            var isChecked = checkBox.hasClass('checked');
+
+                            // Synchronizing the original checkbox:
+                            originalCheckBox.attr('checked',isChecked);
+                            checkBox.find('.tzCBContent').html(labels[isChecked?0:1]);
+                        });
+
+                        // Listening for changes on the original and affecting the new one:
+                        originalCheckBox.bind('change',function(){
+                            checkBox.click();
+                        });
+                    });
+                };
+            })(jQuery);
+
+
+        </script>
+
+<!--        <script src="uploader/assets/jquery_005.js"></script>-->
+
+
+
+        <div class="container">
+
+            <h1 class=" text-center">IPFS File Uploader</h1>
+
+
+            <br>
+            <blockquote class="lead text-center">
+                <p>The IPFS File Uploader saves the Files to your disk and adds then to IPFS upon completion of upload.</br>
+                    when the Files have been successfully added to your IPFS node an IPFS link will  be generated.</br>
+                    The files will then be deleted from the servers disk to save space.</p>
+            </blockquote>
+            <br>
+
+
+            <!-- The file upload form used as target for the file upload widget -->
+            <form id="fileupload" action="https://jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+                <!-- Redirect browsers with JavaScript disabled to the origin page -->
+                <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"></noscript>
+                <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+                <div class="row fileupload-buttonbar">
+                    <div class="col-sm-12 text-center">
+                        <!-- The fileinput-button span is used to style the file input field as button -->
+                        <span class="btn btn-success fileinput-button">
+                    <i class="material-icons">attach_file</i>
+                    <span>Select files...</span>
+                            <!-- The file input field used as target for the file upload widget -->
+                    <input id="FileInput" name="files[]" multiple="" type="file">
+                </span>
+                        <span class="btn btn-primary" onclick="later();">
+                    <i class="material-icons">backup</i>
+                    <span>Start upload</span>
+                </span>
+                        <!--<span class="btn btn-primary" onclick="later();">-->
+                        <!--<i class="material-icons">backup</i>-->
+                        <!--<span>Upload all to same Directory</span>-->
+                        <!--</span>-->
+                        <button type="reset" onclick="removePending();" class="btn btn-warning cancel">
+                            <i class="material-icons">remove_circle</i>
+                            <span>Cancel upload</span>
+                        </button>
+                        <button onclick="later();" id="btnDelete" class="btn btn-danger delete" type="button" data-original-title="" title="">
+                            <i class="material-icons">delete</i>
+                            <span>Delete Stored Files</span>
+                        </button>
+                        <!--onConfirm="deleteFiles();"-->
+                    </div>
+                    <!-- The global progress state -->
+                    <div class="col-lg-5 fileupload-progress fade">
+                        <!-- The global progress bar -->
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                        </div>
+                        <!-- The extended global progress state -->
+                        <div class="progress-extended">&nbsp;</div>
+                    </div>
+                </div>
+                <!-- The table listing the files available for upload/download -->
+                <table role="presentation" class="table table-striped"><tbody id="DisplayFiles" class="files"></tbody></table>
+            </form>
+            <br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Files Added</h3>
+                </div>
+                <div class="row panel-body">
+                    <table class="table table-hover table-striped">
+                        <!--<thead class="thead-dark">-->
+                        <!--<tr>-->
+                        <!--<th class="check"> </th>-->
+                        <!--<th> </th>-->
+                        <!--<th>Date Added</th>-->
+                        <!--<th>File Name</th>-->
+                        <!--<th>Hash Link</th>-->
+                        <!--</tr>-->
+                        <!--</thead>-->
+                        <tbody id="files"> </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- The blueimp Gallery widget -->
+<!--        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-filter=":even">-->
+<!--            <div class="slides"></div>-->
+<!--            <h3 class="title"></h3>-->
+<!--            <a class="prev">‹</a>-->
+<!--            <a class="next">›</a>-->
+<!--            <a class="close">×</a>-->
+<!--            <a class="play-pause"></a>-->
+<!--            <ol class="indicator"></ol>-->
+<!--        </div>-->
+
+        <div id="cover" style="display: none; opacity: 0;">
+            <div id="spinner" style="top: 591.5px; left: 579.5px; position: absolute;"></div>
+            <div id="messageBox" style="top: 711.5px;">
+                <div id="loadingMessage" style="display: block; left: 536.5px;"></div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <script>
+        function addToIpfs(){
+            later();
+        }
+    </script>
+    <script>
+
+        document.getElementById("FileInput").onchange = function(){
+            // console.log($(this)[0].files);
+            var files = $(this)[0].files;
+            // later();
+            var displayTable = document.getElementById("files");
+            for ( var i = 0, file; file = files[i]; i++){
+                // console.log(file);
+                var lcFileName = file.name.replace(/ /g, '');
+                console.log(file);
+                AllFiles[file.name] = file;
+                var tr = document.createElement("tr");
+                tr.className = "template-upload";
+                tr.id = file.name;
+                // tr.className = "template-upload fade";
+                var tdWorkSpace = document.createElement("td");
+
+                var tdPreviewSpan = document.createElement("span");
+                tdPreviewSpan.className = "preview";
+                tdWorkSpace.appendChild(tdPreviewSpan);
+                tr.appendChild(tdWorkSpace);
+
+                tdWorkSpace = document.createElement("td");
+                var div = document.createElement("div");
+                var tdInnerWork = document.createElement("p");
+                tdInnerWork.className = "name";
+                tdInnerWork.innerText = lcFileName;
+                div.appendChild(tdInnerWork)
+                tdInnerWork =document.createElement("br");
+                div.appendChild(tdInnerWork)
+                tdInnerWork = document.createElement("div");
+                tdInnerWork.id = "badFile-" +lcFileName;
+                tdInnerWork.style.display = "none";
+                tdInnerWork.className = "alert alert-danger";
+                var span = document.createElement("span");
+                span.innerHTML = "<strong>Error!</strong>  Something bad happened in the upload. Please try again.";
+                tdInnerWork.appendChild(span);
+                div.appendChild(tdInnerWork)
+
+
+
+                tdWorkSpace.appendChild(div);
+
+
+                // tdInnerWork = document.createElement("Strong");
+                // tdInnerWork.className = "error text-danger";
+                // tdWorkSpace.appendChild(tdInnerWork);
+
+                tr.appendChild(tdWorkSpace);
+                tdWorkSpace = document.createElement("td");
+                tdInnerWork = document.createElement("p");
+                tdInnerWork.className = "size";
+                tdInnerWork.innerHTML = bytesToSize(file.size);
+                tdWorkSpace.appendChild(tdInnerWork);
+                tdInnerWork = document.createElement("div");
+                tdInnerWork.className = "progress progress-striped active";
+                tdInnerWork.role = "progressbar";
+                tdInnerWork.setAttribute("aria-valuemin", "0");
+                tdInnerWork.setAttribute("aria-valuemax", "100");
+                tdInnerWork.setAttribute("aria-valuenow", "0");
+                // tdInnerWork.style.width = "100%";
+
+                var innerProgress = document.createElement("div");
+                innerProgress.className = "progress-bar progress-bar-success";
+                innerProgress.style.width = "0%";
+                innerProgress.id = "Progress-" + lcFileName;
+                tdInnerWork.appendChild(innerProgress);
+                //TODO Add INNER PROGRESSBAR SUCCESS
+
+                tdWorkSpace.appendChild(tdInnerWork);
+                tr.appendChild(tdWorkSpace);
+
+                tdWorkSpace = document.createElement("td");
+                tdWorkSpace.style.verticalAlign = "middle";
+                tdWorkSpace.style.textAlign = "center";
+                tdInnerWork = document.createElement("div");
+                tdInnerWork.style.width = "80%";
+                tdInnerWork.className = "btn btn-primary start glyphicon glyphicon-upload";
+                tdInnerWork.setAttribute("onClick", "addToIpfs('" +file.name + "');");
+                // tdInnerWork.disabled;
+                tdInnerWork.innerHTML = "Start"
+                tdWorkSpace.appendChild(tdInnerWork);
+                tr.appendChild(tdWorkSpace);
+                tdWorkSpace = document.createElement("td");
+                tdWorkSpace.style.verticalAlign = "middle";
+                tdWorkSpace.style.textAlign = "center";
+                tdInnerWork = document.createElement("button");
+                tdInnerWork.style.width = "80%";
+                tdInnerWork.className = "btn btn-warning cancel glyphicon glyphicon-ban-cancel";
+                tdInnerWork.setAttribute("onClick", "removeFile('" + file.name + "');");
+                tdInnerWork.innerHTML = "Cancel"
+                tdWorkSpace.appendChild(tdInnerWork);
+                tr.appendChild(tdWorkSpace);
+
+
+
+
+                displayTable.appendChild(tr);
+            }
+            document.getElementById('FileInput').value = '';
+        };
+    </script>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <?php
 
@@ -955,52 +1463,67 @@ function addUploader(){
 
 function IPFS_load_scripts_admin() {
 
-
-
+    $root =  plugin_dir_url(__FILE__) . 'uploader/assets/';
 
 // Register the script like this for a plugin:
-    wp_register_script( 'external-script', 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js' );
-    wp_register_script( 'external-script1', 'https://blueimp.github.io/JavaScript-Templates/js/tmpl.min.js' );
-    wp_register_script( 'external-script2', 'https://blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js' );
-    wp_register_script( 'external-script3', 'https://blueimp.github.io/JavaScript-Canvas-to-Blob/js/canvas-to-blob.min.js' );
-    wp_register_script( 'external-script4', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' );
-    wp_register_script( 'external-script5', 'https://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js' );
+    wp_register_style("Uploader1", $root.'font-awesome.css', false);
+    wp_enqueue_style("Uploader1");
+    wp_register_style("Uploader2", $root.'theme.css', false);
+    wp_enqueue_style("Uploader2");
+    wp_register_style("Uploader3", $root.'bootstrap.css', false);
+    wp_enqueue_style("Uploader3");
+    wp_register_style("Uploader4", $root.'blueimp-galler.css', false);
+    wp_enqueue_style("Uploader4");
+    wp_register_style("Uploader5", $root.'style.css', false);
+    wp_enqueue_style("Uploader5");
+
+    wp_register_style("Uploader6", $root.'jquery_002.css', false);
+    wp_enqueue_style("Uploader6");
+    wp_register_style("Uploader7", $root.'jquery_003.css', false);
+    wp_enqueue_style("Uploader7");
+    wp_register_style("Uploader8", $root.'icon.css', false);
+    wp_enqueue_style("Uploader8");
+    wp_register_style("Uploader9", $root.'styles.css', false);
+    wp_enqueue_style("Uploader9");
+    wp_register_style("Uploader19", $root.'jquery.css', false);
+    wp_enqueue_style("Uploader19");
+
+    wp_enqueue_script('custom-js', $root.'bootstrap.js', array(), false);
+    wp_enqueue_script('custom-js1', $root.'bootstrap-confirmation.js', array(), false);
+    wp_enqueue_script('custom-js2', $root.'canvas-to-blob.js', array(), false);
+    wp_enqueue_script('custom-js3', $root.'CustomJS.js', array(), false);
+    wp_enqueue_script('custom-js4', $root.'IpfsApi.js', array(), false);
+    wp_enqueue_script('custom-js5', $root.'IPFSjs.js', array(), false);
+//    wp_enqueue_script('custom-js6', $root.'jquery.js', array(), false);
+//    wp_enqueue_script('custom-js7', $root.'jquery_002.js', array(), false);
+    wp_enqueue_script('custom-js8', $root.'jquery_003.js', array(), false);
+//    wp_enqueue_script('custom-js9', $root.'jquery_004.js', array(), false);
+//    wp_enqueue_script('custom-js10', $root.'jquery_005.js', array(), false);
+//    wp_enqueue_script('custom-js11', $root.'jquery_006.js', array(), false);
+    wp_enqueue_script('custom-js12', $root.'jquery_007.js', array(), false);
+    wp_enqueue_script('custom-js13', $root.'jquery_008.js', array(), false);
+    wp_enqueue_script('custom-js14', $root.'jquery_009.js', array(), false);
+    wp_enqueue_script('custom-js15', $root.'jquery_010.js', array(), false);
+//    wp_enqueue_script('custom-js16', $root.'jquery_011.js', array(), false);
+    wp_enqueue_script('custom-js17', $root.'load-image.js', array(), false);
+    wp_enqueue_script('custom-js18', $root.'main.js', array(), false);
+    wp_enqueue_script('custom-js19', $root.'tmpl.js', array(), false);
 
 
-    wp_register_script( 'custom-script', plugins_url( '/uploader/js/vendor/jquery.ui.widget.js', __FILE__ ) );
-
-    wp_register_script( 'custom-script1', plugins_url( '/uploader/js/jquery.fileupload-process.js', __FILE__ ) );
-    wp_register_script( 'custom-script2', plugins_url( '/uploader/js/jquery.fileupload.js', __FILE__ ) );
-    wp_register_script( 'custom-script3', plugins_url( '/uploader/js/jquery.fileupload-audio.js', __FILE__ ) );
-    wp_register_script( 'custom-script4', plugins_url( '/uploader/js/jquery.iframe-transport.js', __FILE__ ) );
-    wp_register_script( 'custom-script5', plugins_url( '/uploader/js/jquery.fileupload-validate.js', __FILE__ ) );
-    wp_register_script( 'custom-script6', plugins_url( '/uploader/js/jquery.fileupload-video.js', __FILE__ ) );
-    wp_register_script( 'custom-script7', plugins_url( '/uploader/js/jquery.fileupload-ui.js ', __FILE__ ) );
-    wp_register_script( 'custom-script8', plugins_url( '/uploader/js/jquery.fileupload-image.js', __FILE__ ) );
-    wp_register_script( 'custom-script9', plugins_url( '/uploader/js/main.js', __FILE__ ) );
-    wp_register_script( 'custom-script910', plugins_url( '/uploader/js/cors/jquery.xdr-transport.js', __FILE__ ) );
-
-    wp_register_style( 'custom-style', plugins_url( '/uploader/css/jquery.fileupload.css', __FILE__ ), array(), '20180501', 'all' );
-    wp_register_style( 'custom-style1', plugins_url( '/uploader/css/jquery.fileupload-ui.css', __FILE__ ), array(), '20180501', 'all' );
-    wp_register_style( 'custom-style2', plugins_url( '/uploader/css/style.css', __FILE__ ), array(), '20180501', 'all' );
-    wp_register_style( 'custom-style3', 'https://blueimp.github.io/Gallery/css/blueimp-gallery.min.css');
 
 
-
-    wp_enqueue_style( 'custom-style2' );
-    wp_enqueue_style( 'custom-style3' );
-    wp_enqueue_style( 'custom-style' );
-    wp_enqueue_style( 'custom-style1' );
-
-    wp_register_script('mediaelement', plugins_url('wp-mediaelement.min.js', __FILE__), array('jquery'), '4.8.2', true);
-    wp_enqueue_script('mediaelement');
 
     wp_enqueue_media();
 
+    // Your custom js file
+    wp_register_script( 'media-lib-uploader-js', plugins_url( 'media-lib-uploader.js' , __FILE__ ), array('jquery') );
+    wp_enqueue_script( 'media-lib-uploader-js' );
+
+
+
+
 }
 add_action( 'admin_enqueue_scripts', 'IPFS_load_scripts_admin' );
-
-
 
 function ipfs_Database(){
     global $wpdb, $hashTable, $logTable, $filesTable;

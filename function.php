@@ -3,7 +3,7 @@
    Plugin Name: IPFS Bridge
    Plugin URI: https://www.jefflubbers.com/ipfs
    description: This plugin creates an IPFS version of your website.
-   Version: 1.14
+   Version: 1.15
    Author: Jeffrey Lubbers
    Author URI: https://www.jefflubbers.com
 
@@ -27,9 +27,10 @@
    */
 
 
-    $root = str_replace("wp-content/plugins/ipfs-bridge","",__DIR__);
-require_once( $root . 'wp-load.php' );
-   require(__DIR__. '/IPFS.php');
+    $root = get_home_path();
+
+    require_once( $root . 'wp-load.php' );
+    require(__DIR__. '/IPFS.php');
 //   require(__DIR__."/ipfs-Verification.php");
 	use Cloutier\PhpIpfsApi\IPFS;
 	use Cloutier\PhpIpfsApi\IPFSFiles;
