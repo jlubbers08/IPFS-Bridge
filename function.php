@@ -3,7 +3,7 @@
    Plugin Name: IPFS Bridge
    Plugin URI: https://www.jefflubbers.com/ipfs
    description: This plugin creates an IPFS version of your website.
-   Version: 1.15
+   Version: 1.16
    Author: Jeffrey Lubbers
    Author URI: https://www.jefflubbers.com
 
@@ -28,6 +28,9 @@
 
 
     $root = get_home_path();
+	if (substr($root, -1) <> "/"){
+		$root = $root."/"
+	}
 
     require_once( $root . 'wp-load.php' );
     require(__DIR__. '/IPFS.php');
