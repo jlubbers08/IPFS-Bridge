@@ -27,11 +27,21 @@
    */
 
 
-    $root = get_home_path();
-	if (substr($root, -1) <> "/"){
-		$root = $root."/"
+    $root = __DIR__;
+//    echo $root;
+//    echo "</br>";
+//    echo "</br>";
+    echo strpos($root, "/wp-content/", strpos($root, "/wp-content/"));
+    $root = substr($root, 0, strpos($root, "/wp-content/"));
+//    echo "</br>";
+//    echo "</br>";
+//    echo $root;
+    if (substr($root, + 0) <> "/"){
+		$root = $root."/";
 	}
-
+//    echo "</br>";
+//    echo "</br>";
+//    echo $root;
     require_once( $root . 'wp-load.php' );
     require(__DIR__. '/IPFS.php');
 //   require(__DIR__."/ipfs-Verification.php");
