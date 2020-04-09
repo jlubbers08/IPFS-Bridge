@@ -15,7 +15,7 @@ IPFS Bridge provides a link from your wordpress site to the IPFS network.
 This is a beta plugin and is still under heavy development as IPFS is still in the alpha stages.
 # == Description ==
 
-IPFS Bridge provides versioning of pages as the pages saves. After the page saves it publishes to the specified IPFS node. You're IPFS node acts as a server node as it is destributed across the IPFS network. There is additional control over the IPFS configuration through the IPFS API.
+IPFS Bridge provides versioning of pages as the pages saves. After the page saves it publishes to the specified IPFS node. Your IPFS node acts as a server node as it is destributed across the IPFS network. There is additional control over the IPFS configuration through the IPFS API.
 
 # == Installation ==
 1. Upload the ipfs-host folder to the /wp-content/plugins/ directory
